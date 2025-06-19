@@ -1,9 +1,237 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Test</title>
-  </head>
-  <body>
-    <h1>Hello World</h1>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cowork.ai Pitch Deck for Concentrix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* bg-slate-50 */
+        }
+        .presentation-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+        }
+        .slide-viewport {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            background-color: #ffffff;
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 3rem 4rem; /* 48px 64px */
+            color: #1e293b; /* slate-800 */
+            /* background-color: #ffffff; */ /* REMOVED THIS LINE */
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out;
+            opacity: 0;
+            transform: scale(0.98);
+        }
+        .slide.active {
+            transform: scale(1);
+            opacity: 1;
+            z-index: 10;
+        }
+        .slide-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            top: 1.5rem;
+            left: 0;
+            padding: 0 2rem;
+        }
+        .slide-footer {
+            width: 100%;
+            position: absolute;
+            bottom: 1.5rem;
+            left: 0;
+            padding: 0 2rem;
+            text-align: right;
+            font-size: 0.875rem;
+            color: #64748b; /* slate-500 */
+        }
+        .logo {
+            height: 28px;
+            opacity: 0.7;
+        }
+        .title-xl {
+            font-size: 2.5rem; /* 40px */
+            font-weight: 800;
+            line-height: 1.2;
+            color: #0f172a; /* slate-900 */
+        }
+        .subtitle-lg {
+            font-size: 1.25rem; /* 20px */
+            font-weight: 500;
+            color: #475569; /* slate-600 */
+        }
+        .nav-button {
+            background-color: #fff;
+            color: #334155; /* slate-700 */
+            border-radius: 9999px;
+            padding: 0.75rem;
+            margin: 0 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #e2e8f0; /* slate-200 */
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .nav-button:hover {
+            background-color: #f1f5f9; /* slate-100 */
+            border-color: #cbd5e1; /* slate-300 */
+        }
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .diagram-arrow {
+            position: relative;
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .diagram-arrow::after {
+                content: '→';
+                position: absolute;
+                right: -2.25rem;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 2.5rem; /* 40px */
+                color: #d1d5db; /* gray-300 */
+                font-weight: 200;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 flex items-center justify-center min-h-screen p-4">
+
+    <div class="presentation-container">
+        <!-- Slide Viewport -->
+        <div class="slide-viewport" id="slideViewport">
+
+            <!-- Slide 1: Cover -->
+            <div class="slide active flex-col items-center justify-center text-center bg-slate-900" data-slide="1">
+                <div class="flex items-center space-x-6 mb-12">
+                     <img src="https://placehold.co/150x50/1e293b/ffffff?text=Cowork.ai" alt="Cowork.ai Logo" class="h-12">
+                     <span class="text-4xl font-thin text-slate-600">+</span>
+                     <img src="https://placehold.co/200x50/1e293b/ffffff?text=Concentrix" alt="Concentrix Logo" class="h-10">
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white">Cowork.ai: Accelerating Concentrix’s AI-Driven Workforce Transformation</h1>
+                <p class="mt-4 text-xl text-slate-300">Real-Time Productivity Analytics and Actionable Workforce Optimization</p>
+                <div class="mt-16 border-t border-slate-700 pt-6 text-slate-400">
+                    <p class="font-semibold">Scott Moran, CEO</p>
+                    <p>s@go2.io | 484-723-9457</p>
+                </div>
+            </div>
+            <!-- Slide 2: Executive Overview -->
+            <div class="slide flex-col justify-center" data-slide="2">
+                <div class="slide-header">
+                    <img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo">
+                    <span class="text-sm font-semibold text-slate-500">EXECUTIVE OVERVIEW</span>
+                </div>
+                <h2 class="title-xl mb-8">From Proven Expertise to Enterprise-Grade AI</h2>
+                <div class="space-y-8 text-lg max-w-5xl">
+                    <div class="flex items-start p-6 bg-slate-50 rounded-lg border">
+                        <svg class="h-8 w-8 text-blue-500 mr-4 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                        <p><span class="font-bold text-slate-800">From SMB Staffing to Enterprise AI:</span> Leveraging 7 years of deep domain experience from Go2 to deliver Cowork.ai, a specialized AI productivity solution.</p>
+                    </div>
+                    <div class="flex items-start p-6 bg-slate-50 rounded-lg border">
+                        <svg class="h-8 w-8 text-blue-500 mr-4 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        <p><span class="font-bold text-slate-800">Deep Workflow Understanding:</span> Unmatched insight into the real-world inefficiencies and friction points faced by frontline agents daily.</p>
+                    </div>
+                    <div class="flex items-start p-6 bg-slate-50 rounded-lg border">
+                        <svg class="h-8 w-8 text-blue-500 mr-4 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3M5.636 5.636l1.414 1.414m10.05 10.05l1.414 1.414M5.636 18.364l1.414-1.414m10.05-10.05l1.414-1.414"/></svg>
+                        <p><span class="font-bold text-slate-800">Complementary & Rapidly Implementable:</span> A lightweight, non-disruptive analytics layer designed to enhance, not replace, your existing AI infrastructure.</p>
+                    </div>
+                </div>
+                <div class="slide-footer">2 / 11</div>
+            </div>
+            <!-- ... rest of your slides and navigation code unchanged ... -->
+            <!-- (Paste all slides and navigation JS as in your original file) -->
+
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex items-center mt-4">
+            <button id="prevBtn" class="nav-button">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <div id="slideCounter" class="text-slate-600 text-lg font-medium mx-4">1 / 11</div>
+            <button id="nextBtn" class="nav-button">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slideCounter = document.getElementById('slideCounter');
+            const totalSlides = slides.length;
+            let currentSlide = 1;
+
+            function updateSlides() {
+                slides.forEach(slide => {
+                    const slideNumber = parseInt(slide.dataset.slide, 10);
+                    slide.classList.remove('active');
+                    if (slideNumber === currentSlide) {
+                        slide.classList.add('active');
+                    }
+                });
+                
+                slideCounter.textContent = `${currentSlide} / ${totalSlides}`;
+                prevBtn.disabled = currentSlide === 1;
+                nextBtn.disabled = currentSlide === totalSlides;
+            }
+
+            function goToNextSlide() {
+                if (currentSlide < totalSlides) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            }
+
+            function goToPrevSlide() {
+                if (currentSlide > 1) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+
+            nextBtn.addEventListener('click', goToNextSlide);
+            prevBtn.addEventListener('click', goToPrevSlide);
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    goToNextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    goToPrevSlide();
+                }
+            });
+
+            updateSlides();
+        });
+    </script>
+</body>
 </html>
