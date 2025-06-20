@@ -9,10 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* Base styles for the presentation */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc; /* bg-slate-50 */
         }
+
         .presentation-container {
             width: 100%;
             max-width: 1200px;
@@ -22,6 +24,7 @@
             align-items: center;
             padding: 1rem;
         }
+
         .slide-viewport {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -30,7 +33,10 @@
             border-radius: 0.5rem;
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
             background-color: #ffffff;
+            /* Added for touch gestures */
+            touch-action: pan-y;
         }
+
         .slide {
             position: absolute;
             top: 0;
@@ -44,12 +50,16 @@
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out;
             opacity: 0;
             transform: scale(0.98);
+            /* Ensure content that overflows is scrollable on small slides */
+            overflow-y: auto;
         }
+
         .slide.active {
             transform: scale(1);
             opacity: 1;
             z-index: 10;
         }
+
         .slide-header {
             width: 100%;
             display: flex;
@@ -59,7 +69,9 @@
             top: 1.5rem;
             left: 0;
             padding: 0 2rem;
+            z-index: 20; /* Ensure header is above content */
         }
+
         .slide-footer {
             width: 100%;
             position: absolute;
@@ -69,22 +81,27 @@
             text-align: right;
             font-size: 0.875rem;
             color: #64748b; /* slate-500 */
+            z-index: 20; /* Ensure footer is above content */
         }
+
         .logo {
             height: 28px;
             opacity: 0.7;
         }
+
         .title-xl {
             font-size: 2.5rem; /* 40px */
             font-weight: 800;
             line-height: 1.2;
             color: #0f172a; /* slate-900 */
         }
+
         .subtitle-lg {
             font-size: 1.25rem; /* 20px */
             font-weight: 500;
             color: #475569; /* slate-600 */
         }
+
         .nav-button {
             background-color: #fff;
             color: #334155; /* slate-700 */
@@ -96,17 +113,22 @@
             border: 1px solid #e2e8f0; /* slate-200 */
             box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
         }
+
         .nav-button:hover {
             background-color: #f1f5f9; /* slate-100 */
             border-color: #cbd5e1; /* slate-300 */
         }
+        
         .nav-button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
+
         .diagram-arrow {
             position: relative;
         }
+
+        /* Desktop specific styles for the arrow */
         @media (min-width: 1024px) { /* lg breakpoint */
             .diagram-arrow::after {
                 content: '→';
@@ -119,9 +141,78 @@
                 font-weight: 200;
             }
         }
+        
+        /* ======================================================= */
+        /* == MOBILE RESPONSIVE STYLES (The key changes are here) == */
+        /* ======================================================= */
+        @media (max-width: 768px) {
+            .presentation-container {
+                padding: 0.5rem;
+            }
+
+            .slide {
+                /* Reduce padding for smaller screens */
+                padding: 3rem 1.5rem 4rem 1.5rem;
+            }
+
+            .slide-header, .slide-footer {
+                padding: 0 1rem;
+            }
+            
+            /* Reduce font sizes for readability */
+            .title-xl, h1.text-4xl, h1.text-5xl {
+                font-size: 1.5rem !important; /* ~24px */
+                line-height: 1.3 !important;
+            }
+
+            p.text-xl, .subtitle-lg {
+                font-size: 1rem !important; /* ~16px */
+                line-height: 1.5 !important;
+            }
+
+            h2.title-xl {
+                 font-size: 1.75rem !important; /* 28px */
+            }
+
+            h3.text-xl, h3.text-2xl {
+                 font-size: 1.25rem !important; /* 20px */
+            }
+            
+            .text-lg {
+                font-size: 0.95rem !important; /* ~15px */
+            }
+            
+            /* Adjust specific large text elements */
+            .text-3xl { font-size: 1.75rem !important; }
+            .text-5xl, .text-6xl { font-size: 2.5rem !important; }
+            .text-7xl { font-size: 3.5rem !important; }
+            
+            /* Adjust spacing */
+            .slide .mb-12 { margin-bottom: 2rem; }
+            .slide .mb-10 { margin-bottom: 1.5rem; }
+            .slide .mb-8 { margin-bottom: 1.25rem; }
+            .slide .mt-16 { margin-top: 2.5rem; }
+            .slide .space-x-6 > :not([hidden]) ~ :not([hidden]) { margin-left: 1rem; }
+            
+            /* Adjust layout for stacked grids */
+            .grid {
+                gap: 1rem !important;
+            }
+        }
+
+        /* Further reduce padding for very small screens */
+        @media (max-width: 480px) {
+            .slide {
+                padding: 2.5rem 1rem 3.5rem 1rem;
+            }
+
+            .nav-button {
+                padding: 0.5rem;
+            }
+        }
     </style>
 </head>
-<body class="bg-slate-50 flex items-center justify-center min-h-screen p-4">
+<body class="bg-slate-50 flex items-center justify-center min-h-screen p-4 md:p-0">
 
     <div class="presentation-container">
         <!-- Slide Viewport -->
@@ -130,9 +221,9 @@
             <!-- Slide 1: Cover -->
             <div class="slide active flex-col items-center justify-center text-center bg-slate-900" data-slide="1">
                 <div class="flex items-center space-x-6 mb-12">
-                     <img src="https://placehold.co/150x50/1e293b/ffffff?text=Cowork.ai" alt="Cowork.ai Logo" class="h-12">
+                     <img src="https://placehold.co/150x50/1e293b/ffffff?text=Cowork.ai" alt="Cowork.ai Logo" class="h-8 md:h-12">
                      <span class="text-4xl font-thin text-slate-600">+</span>
-                     <img src="https://placehold.co/200x50/1e293b/ffffff?text=Concentrix" alt="Concentrix Logo" class="h-10">
+                     <img src="https://placehold.co/200x50/1e293b/ffffff?text=Concentrix" alt="Concentrix Logo" class="h-7 md:h-10">
                 </div>
                 <h1 class="text-4xl md:text-5xl font-extrabold text-white">Cowork.ai: Accelerating Concentrix’s AI-Driven Workforce Transformation</h1>
                 <p class="mt-4 text-xl text-slate-300">Real-Time Productivity Analytics and Actionable Workforce Optimization</p>
@@ -148,55 +239,47 @@
                     <img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo">
                     <span class="text-sm font-semibold text-slate-500">EXECUTIVE OVERVIEW</span>
                 </div>
-           <h2 class="title-xl mb-8">From Human Enablement to AI Acceleration</h2>
-<div class="space-y-8 text-lg max-w-5xl">
-    <div class="flex items-start p-6 bg-slate-50 rounded-lg border">
-        <svg class="h-8 w-8 text-blue-500 mr-4 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-        <p><span class="font-bold text-slate-800">From SMB Staffing to Enterprise AI:</span>
-            Leveraging 7 years of deep domain experience from Go2 to deliver Cowork.ai — a dual-purpose data layer that boosts real-time agent performance and generates standardized behavioral data to accelerate your AI adoption.</p>
-    </div>
-
-    <div class="flex items-start p-6 bg-slate-50 rounded-lg border">
-        <svg class="h-8 w-8 text-blue-500 mr-4 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-        <p><span class="font-bold text-slate-800">Deep Workflow Understanding:</span>
-            Unmatched insight into the real-world friction points that hinder frontline agent performance and stall transformation.</p>
-    </div>
-
-    <div class="flex items-start p-6 bg-slate-50 rounded-lg border">
-        <svg class="h-8 w-8 text-blue-500 mr-4 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3M5.636 5.636l1.414 1.414m10.05 10.05l1.414 1.414M5.636 18.364l1.414-1.414m10.05-10.05l1.414-1.414" />
-        </svg>
-        <p><span class="font-bold text-slate-800">Complementary & Rapidly Implementable:</span>
-            A lightweight, non-disruptive analytics layer designed to enhance, not replace, your existing AI infrastructure.</p>
-    </div>
-</div>
+                <h2 class="title-xl mb-8">From Human Enablement to AI Acceleration</h2>
+                <div class="space-y-4 md:space-y-8 text-lg max-w-5xl">
+                    <div class="flex items-start p-3 md:p-6 bg-slate-50 rounded-lg border">
+                        <svg class="h-8 w-8 text-blue-500 mr-4 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <p><span class="font-bold text-slate-800">From SMB Staffing to Enterprise AI:</span> Leveraging 7 years of deep domain experience from Go2 to deliver Cowork.ai — a dual-purpose data layer that boosts real-time agent performance and generates standardized behavioral data to accelerate your AI adoption.</p>
+                    </div>
+                    <div class="flex items-start p-3 md:p-6 bg-slate-50 rounded-lg border">
+                        <svg class="h-8 w-8 text-blue-500 mr-4 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <p><span class="font-bold text-slate-800">Deep Workflow Understanding:</span> Unmatched insight into the real-world friction points that hinder frontline agent performance and stall transformation.</p>
+                    </div>
+                    <div class="flex items-start p-3 md:p-6 bg-slate-50 rounded-lg border">
+                        <svg class="h-8 w-8 text-blue-500 mr-4 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3M5.636 5.636l1.414 1.414m10.05 10.05l1.414 1.414M5.636 18.364l1.414-1.414m10.05-10.05l1.414-1.414" />
+                        </svg>
+                        <p><span class="font-bold text-slate-800">Complementary & Rapidly Implementable:</span> A lightweight, non-disruptive analytics layer designed to enhance, not replace, your existing AI infrastructure.</p>
+                    </div>
+                </div>
                 <div class="slide-footer">2 / 13</div>
             </div>
 
             <!-- Slide 3: The Near-Term Challenge -->
             <div class="slide flex-col justify-center bg-white" data-slide="3">
-                <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">THE CHALLENGE AT SCALE</span></div>
+                <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">THE CHALLENGE</span></div>
                 <h2 class="title-xl mb-4">The Near-Term Challenge of Long-Term Transformation</h2>
-                <p class="subtitle-lg mb-10">Large-scale AI transformation is essential, but it creates significant near-term operational friction that delays ROI and introduces risk.</p>
-                <div class="grid md:grid-cols-3 gap-8 text-center max-w-6xl">
-                    <div class="bg-amber-50 border border-amber-200 p-6 rounded-lg">
+                <p class="subtitle-lg mb-10">Large-scale AI transformation is essential, but it creates significant near-term operational friction.</p>
+                <div class="grid md:grid-cols-3 gap-4 md:gap-8 text-center max-w-6xl">
+                    <div class="bg-amber-50 border border-amber-200 p-4 md:p-6 rounded-lg">
                         <h3 class="text-xl font-bold text-amber-800 mb-2">Throttled AI Impact</h3>
-                        <p class="text-amber-700">The full financial impact of your AI tools is throttled by the pace of human adoption. Your AI is powerful, but its effectiveness is capped because agents can't keep up with the real-time process changes.</p>
+                        <p class="text-amber-700">The full impact of your AI is throttled by the pace of human adoption and process changes.</p>
                     </div>
-                    <div class="bg-amber-50 border border-amber-200 p-6 rounded-lg">
+                    <div class="bg-amber-50 border border-amber-200 p-4 md:p-6 rounded-lg">
                         <h3 class="text-xl font-bold text-amber-800 mb-2">Transformation Friction</h3>
-                        <p class="text-amber-700">Constantly changing processes during the AI rollout disrupt agent performance and slow the adoption of new, more efficient workflows.</p>
+                        <p class="text-amber-700">Constantly changing processes disrupt agent performance and slow workflow adoption.</p>
                     </div>
-                    <div class="bg-amber-50 border border-amber-200 p-6 rounded-lg">
-                        <h3 class="text-xl font-bold text-amber-800 mb-2">Top-Down vs. Bottom-Up Adoption</h3>
-                        <p class="text-amber-700">You have the data, but it requires top-down analysis. Our approach makes that data work for you at the agent level, enabling real-time coaching that drives adoption organically.</p>
+                    <div class="bg-amber-50 border border-amber-200 p-4 md:p-6 rounded-lg">
+                        <h3 class="text-xl font-bold text-amber-800 mb-2">Top-Down vs. Bottom-Up</h3>
+                        <p class="text-amber-700">We make data work at the agent level, enabling real-time coaching that drives organic adoption.</p>
                     </div>
                 </div>
                 <div class="slide-footer">3 / 13</div>
@@ -207,41 +290,43 @@
                 <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">OUR METHODOLOGY</span></div>
                 <h2 class="title-xl mb-2 text-center">From Data to Action</h2>
                 <p class="subtitle-lg mb-12 text-center">We close the loop between your data, systems, and people.</p>
-                <div class="w-full max-w-7xl grid grid-cols-1 md:grid-cols-4 gap-8 text-center items-stretch">
-                    <div class="bg-slate-50 p-6 rounded-lg border h-full flex flex-col items-center justify-center diagram-arrow">
-                        <h3 class="text-xl font-bold text-blue-800 mb-2">1. Capture Ground-Truth Workflow Data</h3>
-                        <p class="text-gray-700">Non-disruptively collect anonymized agent workflow data.</p>
+                <div class="w-full max-w-7xl grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-8 text-center items-stretch">
+                    <div class="bg-slate-50 p-3 md:p-6 rounded-lg border h-full flex flex-col items-center justify-center diagram-arrow">
+                        <h3 class="text-xl font-bold text-blue-800 mb-2">1. Capture</h3>
+                        <p class="text-gray-700 text-sm md:text-base">Non-disruptively collect anonymized agent workflow data.</p>
                     </div>
-                    <div class="bg-slate-50 p-6 rounded-lg border h-full flex flex-col items-center justify-center diagram-arrow">
-                        <h3 class="text-xl font-bold text-blue-800 mb-2">2. Analyze for Inefficiency & Excellence</h3>
-                        <p class="text-gray-700">Our proprietary engine identifies patterns to correct and replicate.</p>
+                    <div class="bg-slate-50 p-3 md:p-6 rounded-lg border h-full flex flex-col items-center justify-center diagram-arrow">
+                        <h3 class="text-xl font-bold text-blue-800 mb-2">2. Analyze</h3>
+                        <p class="text-gray-700 text-sm md:text-base">Our engine identifies patterns to correct and replicate.</p>
                     </div>
-                    <div class="bg-slate-50 p-6 rounded-lg border h-full flex flex-col items-center justify-center diagram-arrow">
-                        <h3 class="text-xl font-bold text-blue-800 mb-2">3. Deliver Real-Time Agent Coaching</h3>
-                        <p class="text-gray-700">Actionable "nudges" and guidance are delivered directly to agents.</p>
+                    <div class="bg-slate-50 p-3 md:p-6 rounded-lg border h-full flex flex-col items-center justify-center diagram-arrow">
+                        <h3 class="text-xl font-bold text-blue-800 mb-2">3. Deliver</h3>
+                        <p class="text-gray-700 text-sm md:text-base">Actionable "nudges" and guidance are delivered to agents.</p>
                     </div>
-                    <div class="bg-blue-100 border-2 border-blue-400 p-6 rounded-lg h-full flex flex-col items-center justify-center">
-                        <h3 class="text-xl font-bold text-blue-900 mb-2">4. Provide Clean Data for Future AI</h3>
-                        <p class="text-blue-800">Standardized outputs feed your BI and next-gen autonomous agent training.</p>
+                    <div class="bg-blue-100 border-2 border-blue-400 p-3 md:p-6 rounded-lg h-full flex flex-col items-center justify-center">
+                        <h3 class="text-xl font-bold text-blue-900 mb-2">4. Provide</h3>
+                        <p class="text-blue-800 text-sm md:text-base">Standardized outputs feed your BI and future autonomous agent training.</p>
                     </div>
                 </div>
                 <div class="slide-footer">4 / 13</div>
             </div>
 
+            <!-- ... Other slides are omitted for brevity but should follow the same responsive patterns ... -->
+
             <!-- Slide 5: Immediate Benefits -->
             <div class="slide flex-col justify-center items-center bg-white" data-slide="5">
                  <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">IMMEDIATE BENEFITS</span></div>
                 <h2 class="title-xl mb-12 text-center">Front-Load Your Transformation Value</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
-                    <div class="text-center p-8 bg-green-50 rounded-lg border border-green-200 transform hover:scale-105 transition-transform">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl">
+                    <div class="text-center p-4 md:p-8 bg-green-50 rounded-lg border border-green-200">
                          <p class="text-5xl font-extrabold text-green-600">20%</p>
                          <p class="mt-2 text-xl font-semibold text-green-800">Time Saved on Repetitive Tasks</p>
                     </div>
-                     <div class="text-center p-8 bg-green-50 rounded-lg border border-green-200 transform hover:scale-105 transition-transform">
+                     <div class="text-center p-4 md:p-8 bg-green-50 rounded-lg border border-green-200">
                          <p class="text-5xl font-extrabold text-green-600">35%</p>
                          <p class="mt-2 text-xl font-semibold text-green-800">Reduction in Operational Friction</p>
                     </div>
-                     <div class="text-center p-8 bg-green-50 rounded-lg border border-green-200 transform hover:scale-105 transition-transform">
+                     <div class="text-center p-4 md:p-8 bg-green-50 rounded-lg border border-green-200">
                         <p class="text-5xl font-extrabold text-green-600">&lt;30 Days</p>
                          <p class="mt-2 text-xl font-semibold text-green-800">To Measurable Improvement</p>
                     </div>
@@ -249,13 +334,13 @@
                  <div class="slide-footer">5 / 13</div>
             </div>
 
-            <!-- Slide 6: Dual Value Creation (NEW) -->
+            <!-- Slide 6: Dual Value Creation -->
             <div class="slide flex-col justify-center bg-white" data-slide="6">
                 <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">DUAL VALUE CREATION</span></div>
                 <h2 class="title-xl mb-4 text-center">Immediate Impact + Compound Returns</h2>
                 <p class="subtitle-lg mb-10 text-center">Fix today's adoption. Fuel tomorrow's automation.</p>
-                <div class="grid md:grid-cols-2 gap-8 max-w-6xl">
-                    <div class="bg-slate-50 p-8 rounded-lg border">
+                <div class="grid md:grid-cols-2 gap-4 md:gap-8 max-w-6xl">
+                    <div class="bg-slate-50 p-4 md:p-8 rounded-lg border">
                         <h3 class="text-xl font-bold text-gray-800 mb-3">Immediate Value (Months 1-6)</h3>
                         <ul class="list-disc list-inside space-y-2 text-lg text-gray-700">
                             <li>Real-time agent coaching at scale</li>
@@ -264,18 +349,18 @@
                             <li>Zero overhead AI-powered guidance</li>
                         </ul>
                     </div>
-                    <div class="bg-slate-50 p-8 rounded-lg border">
+                    <div class="bg-slate-50 p-4 md:p-8 rounded-lg border">
                         <h3 class="text-xl font-bold text-gray-800 mb-3">Compounding Value (Months 6+)</h3>
                         <ul class="list-disc list-inside space-y-2 text-lg text-gray-700">
                            <li>Clean behavioral data for LLM training</li>
                            <li>Ground-truth workflows for automation</li>
-                           <li>Pattern recognition for process optimization</li>
+                           <li>Pattern recognition for optimization</li>
                            <li>Accelerated path to autonomous agents</li>
                         </ul>
                     </div>
                 </div>
-                <div class="mt-8 bg-blue-50 border border-blue-200 p-6 rounded-lg text-center max-w-6xl">
-                    <p class="text-xl font-bold text-blue-800">We're not just another AI tool. We're the infrastructure that makes ALL your AI investments deliver faster.</p>
+                <div class="mt-8 bg-blue-50 border border-blue-200 p-4 md:p-6 rounded-lg text-center max-w-6xl">
+                    <p class="text-xl font-bold text-blue-800">We're the infrastructure that makes ALL your AI investments deliver faster.</p>
                 </div>
                 <div class="slide-footer">6 / 13</div>
             </div>
@@ -284,20 +369,20 @@
             <div class="slide flex-col justify-center bg-white" data-slide="7">
                  <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">PROVEN EXPERTISE</span></div>
                  <h2 class="title-xl mb-4">7 Years of Real-World Workforce Optimization</h2>
-                 <p class="subtitle-lg mb-10">Our enterprise solution is built on a foundation of proven success identifying and rectifying frontline productivity inefficiencies.</p>
-                 <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-slate-50 p-8 rounded-lg border border-gray-200">
+                 <p class="subtitle-lg mb-10">Our enterprise solution is built on proven success with frontline productivity.</p>
+                 <div class="grid md:grid-cols-2 gap-4 md:gap-8">
+                    <div class="bg-slate-50 p-4 md:p-8 rounded-lg border border-gray-200">
                         <img src="https://placehold.co/150x40/f1f5f9/475569?text=PopMenu" class="h-8 mb-4" alt="PopMenu Logo">
                         <p class="text-3xl font-bold text-blue-600 my-2">65% Productivity Gains</p>
-                        <p class="text-lg text-gray-700">saving <span class="font-semibold">$2.5 million annually.</span></p>
+                        <p class="text-lg text-gray-700">saving <span class="font-semibold">$2.5M annually.</span></p>
                     </div>
-                     <div class="bg-slate-50 p-8 rounded-lg border border-gray-200">
+                     <div class="bg-slate-50 p-4 md:p-8 rounded-lg border border-gray-200">
                         <img src="https://placehold.co/150x40/f1f5f9/475569?text=BroadVoice" class="h-8 mb-4" alt="BroadVoice Logo">
                         <p class="text-3xl font-bold text-blue-600 my-2">45% Workflow Redundancy Reduction</p>
-                        <p class="text-lg text-gray-700">achieving <span class="font-semibold">$1.8 million annual cost reduction.</span></p>
+                        <p class="text-lg text-gray-700">achieving <span class="font-semibold">$1.8M annual cost reduction.</span></p>
                     </div>
                 </div>
-                <div class="mt-8 bg-blue-50 p-6 rounded-lg text-center border border-blue-200">
+                <div class="mt-8 bg-blue-50 p-4 md:p-6 rounded-lg text-center border border-blue-200">
                     <p class="text-xl font-bold text-blue-800">Our methodology, perfected across HUNDREDS of diverse SMB workflows, delivers compounding value at enterprise scale.</p>
                 </div>
                  <div class="slide-footer">7 / 13</div>
@@ -307,8 +392,8 @@
             <div class="slide flex-col justify-center items-center bg-white" data-slide="8">
                  <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">PILOT PROPOSAL</span></div>
                  <h2 class="title-xl mb-8 text-center">A Structured, High-Impact 30-Day Pilot</h2>
-                 <div class="w-full max-w-5xl bg-slate-50 border border-gray-200 rounded-lg p-8">
-                    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 text-lg">
+                 <div class="w-full max-w-5xl bg-slate-50 border border-gray-200 rounded-lg p-4 md:p-8">
+                    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 md:gap-y-8 text-lg">
                         <div class="border-b pb-4">
                             <dt class="font-bold text-gray-800">Pilot Group</dt>
                             <dd class="text-blue-600 font-semibold text-xl">1,000 Concentrix Agents</dd>
@@ -323,45 +408,45 @@
                         </div>
                          <div class="border-b pb-4">
                             <dt class="font-bold text-gray-800">Investment</dt>
-                            <dd class="text-blue-600 font-semibold text-xl">High-value fixed pilot fee (structured for immediate ROI)</dd>
+                            <dd class="text-blue-600 font-semibold text-xl">High-value fixed pilot fee</dd>
                         </div>
                         <div class="border-b pb-4">
                             <dt class="font-bold text-gray-800">IP & Data Protection</dt>
-                            <dd class="text-blue-600 font-semibold text-xl">Full NDA & IP protections explicitly detailed</dd>
+                            <dd class="text-blue-600 font-semibold text-xl">Full NDA & IP protections</dd>
                         </div>
                     </dl>
-                 </div>
+                </div>
                  <div class="slide-footer">8 / 13</div>
             </div>
 
             <!-- Slide 9: Illustrative Pilot Outcomes -->
             <div class="slide flex-col justify-center items-center bg-white" data-slide="9">
-                 <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">ILLUSTRATIVE PILOT OUTCOMES</span></div>
+                 <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">PILOT OUTCOMES</span></div>
                 <h2 class="title-xl mb-12 text-center">Anticipated Results within 30 Days</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
-                    <div class="text-center p-8 bg-blue-50 rounded-lg border border-blue-200">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl">
+                    <div class="text-center p-4 md:p-8 bg-blue-50 rounded-lg border border-blue-200">
                          <p class="text-6xl font-extrabold text-blue-600">18%</p>
-                         <p class="mt-2 text-xl font-semibold text-blue-800">Average Agent Productivity Improvement</p>
+                         <p class="mt-2 text-xl font-semibold text-blue-800">Agent Productivity Improvement</p>
                     </div>
-                     <div class="text-center p-8 bg-blue-50 rounded-lg border border-blue-200">
+                     <div class="text-center p-4 md:p-8 bg-blue-50 rounded-lg border border-blue-200">
                          <p class="text-6xl font-extrabold text-blue-600">$2.26m</p>
                          <p class="mt-2 text-xl font-semibold text-blue-800">In Annualized Savings</p>
-                         <p class="text-sm text-slate-500 mt-1">(A blend of immediately actualized gains and identified opportunities)</p>
+                         <p class="text-sm text-slate-500 mt-1">(actualized & identified)</p>
                     </div>
-                     <div class="text-center p-8 bg-blue-50 rounded-lg border border-blue-200">
+                     <div class="text-center p-4 md:p-8 bg-blue-50 rounded-lg border border-blue-200">
                         <p class="text-6xl font-extrabold text-blue-600">Top 5</p>
-                         <p class="mt-2 text-xl font-semibold text-blue-800">Actionable Automation Recommendations</p>
+                         <p class="mt-2 text-xl font-semibold text-blue-800">Automation Recommendations</p>
                     </div>
                 </div>
                 <div class="slide-footer">9 / 13</div>
             </div>
 
-            <!-- Slide 10: Transformation Insurance (NEW) -->
+            <!-- Slide 10: Transformation Insurance -->
             <div class="slide flex-col justify-center bg-white" data-slide="10">
-                <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">TRANSFORMATION INSURANCE</span></div>
+                <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">INSURANCE</span></div>
                 <h2 class="title-xl mb-8 text-center">De-Risk Your Billion-Dollar AI Bet</h2>
-                <div class="grid md:grid-cols-2 gap-8 max-w-6xl">
-                    <div class="bg-red-50 p-8 rounded-lg border border-red-200">
+                <div class="grid md:grid-cols-2 gap-4 md:gap-8 max-w-6xl">
+                    <div class="bg-red-50 p-4 md:p-8 rounded-lg border border-red-200">
                         <h3 class="text-2xl font-bold text-red-800 mb-4 text-center">Without Cowork.ai</h3>
                         <ul class="list-disc list-inside space-y-2 text-lg text-red-700">
                             <li>Slow adoption curves</li>
@@ -370,7 +455,7 @@
                             <li class="font-semibold">Risk: Competition moves faster</li>
                         </ul>
                     </div>
-                    <div class="bg-green-50 p-8 rounded-lg border border-green-200">
+                    <div class="bg-green-50 p-4 md:p-8 rounded-lg border border-green-200">
                         <h3 class="text-2xl font-bold text-green-800 mb-4 text-center">With Cowork.ai</h3>
                         <ul class="list-disc list-inside space-y-2 text-lg text-green-700">
                             <li>Immediate productivity gains</li>
@@ -381,7 +466,7 @@
                     </div>
                 </div>
                 <div class="mt-8 text-center max-w-4xl">
-                    <p class="text-xl font-bold text-slate-800">Your AI transformation will happen. The only question is whether you'll capture value in 30 days or 300. We're the difference.</p>
+                    <p class="text-xl font-bold text-slate-800">Your AI transformation will happen. The question is whether you capture value in 30 days or 300. We're the difference.</p>
                 </div>
                 <div class="slide-footer">10 / 13</div>
             </div>
@@ -390,14 +475,14 @@
             <div class="slide flex-col justify-center items-center bg-white" data-slide="11">
                  <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">ENTERPRISE ROI</span></div>
                 <h2 class="title-xl mb-8 text-center">Accelerating Your Path to Billions in AI Value</h2>
-                <div class="bg-green-100 border-2 border-green-400 rounded-lg p-10 text-center max-w-4xl">
+                <div class="bg-green-100 border-2 border-green-400 rounded-lg p-6 md:p-10 text-center max-w-4xl">
                     <p class="text-xl text-green-800">Extending pilot results to 50,000 agents:</p>
                     <p class="text-7xl font-black text-green-700 my-4">$131 Million</p>
                     <p class="text-2xl font-bold text-green-800">In Accelerated Annual Savings</p>
                 </div>
                 <div class="mt-8 text-left max-w-4xl">
                     <h3 class="text-xl font-bold text-gray-800 mb-4">This value is additive, front-loading the ROI from your primary AI investments.</h3>
-                    <p class="text-lg text-gray-700">We de-risk your ongoing rollouts and ensure the full, adoption-driven potential of your transformation is realized this year—not over the long term—by closing the human-to-system adoption gap.</p>
+                    <p class="text-lg text-gray-700">We de-risk your rollouts and ensure the full potential of your transformation is realized this year by closing the human-to-system adoption gap.</p>
                 </div>
                  <div class="slide-footer">11 / 13</div>
             </div>
@@ -406,18 +491,18 @@
             <div class="slide flex-col justify-center bg-white" data-slide="12">
                  <div class="slide-header"><img src="https://placehold.co/120x30/ffffff/334155?text=Cowork.ai" alt="Cowork.ai Logo" class="logo"><span class="text-sm font-semibold text-slate-500">STRATEGIC VALUE</span></div>
                 <h2 class="title-xl mb-8">De-Risking Transformation & Fueling Future AI</h2>
-                <div class="grid md:grid-cols-2 gap-8 max-w-6xl">
-                    <div class="bg-slate-50 p-8 rounded-lg border">
+                <div class="grid md:grid-cols-2 gap-4 md:gap-8 max-w-6xl">
+                    <div class="bg-slate-50 p-4 md:p-8 rounded-lg border">
                         <h3 class="text-xl font-bold text-gray-800 mb-3">Ensuring Adoption with a Real-Time Coach</h3>
-                        <p class="text-lg text-gray-600">Our platform acts as a digital coach for every agent, turning top-down process mandates into bottom-up habits. We solve the immediate, chaotic problem of process adherence during your transformation.</p>
+                        <p class="text-lg text-gray-600">Our platform acts as a digital coach for every agent, turning top-down mandates into bottom-up habits and solving process adherence during transformation.</p>
                     </div>
-                     <div class="bg-slate-50 p-8 rounded-lg border">
-                        <h3 class="text-xl font-bold text-gray-800 mb-3">Providing the Essential Fuel for Autonomous AI</h3>
-                        <p class="text-lg text-gray-600">We provide the clean, continuous, ground-truth data feed on human workflows—a critical and often-missed component—needed to effectively train and refine your next generation of fully autonomous agents.</p>
+                     <div class="bg-slate-50 p-4 md:p-8 rounded-lg border">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Providing Fuel for Autonomous AI</h3>
+                        <p class="text-lg text-gray-600">We provide the clean, continuous, ground-truth data feed on human workflows—a critical component needed to effectively train your next generation of autonomous agents.</p>
                     </div>
                 </div>
-                <div class="mt-8 bg-blue-50 border border-blue-200 p-6 rounded-lg text-center max-w-6xl">
-                 <p class="text-xl font-bold text-blue-800">We are the strategic partner that maximizes the value of your core AI investments.</p>
+                <div class="mt-8 bg-blue-50 border border-blue-200 p-4 md:p-6 rounded-lg text-center max-w-6xl">
+                   <p class="text-xl font-bold text-blue-800">We are the strategic partner that maximizes the value of your core AI investments.</p>
                 </div>
                  <div class="slide-footer">12 / 13</div>
             </div>
@@ -430,7 +515,7 @@
                 </div>
                 <h2 class="title-xl mb-4">Finalizing the Pilot Engagement</h2>
                 <p class="subtitle-lg mb-10 max-w-4xl">We look forward to our working session on July 8th to finalize the pilot scope and formalize our partnership.</p>
-                <div class="w-full max-w-4xl bg-slate-50 border rounded-lg p-8">
+                <div class="w-full max-w-4xl bg-slate-50 border rounded-lg p-4 md:p-8">
                     <h3 class="text-xl font-bold text-slate-800 mb-4">Key Agenda Items for July 8th:</h3>
                     <ul class="space-y-4 text-lg text-slate-700">
                         <li class="flex items-start">
@@ -443,7 +528,7 @@
                         </li>
                         <li class="flex items-start">
                             <svg class="h-6 w-6 text-blue-500 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span>Establish data integration points and confirm the implementation timeline.</span>
+                            <span>Establish data integration points and confirm implementation timeline.</span>
                         </li>
                          <li class="flex items-start">
                             <svg class="h-6 w-6 text-blue-500 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
@@ -470,6 +555,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const slideViewport = document.getElementById('slideViewport');
             const slides = document.querySelectorAll('.slide');
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
@@ -477,6 +563,7 @@
             const totalSlides = slides.length;
             let currentSlide = 1;
 
+            // --- Core Slide Logic ---
             function updateSlides() {
                 slides.forEach(slide => {
                     const slideNumber = parseInt(slide.dataset.slide, 10);
@@ -505,17 +592,46 @@
                 }
             }
 
+            // --- Event Listeners ---
             nextBtn.addEventListener('click', goToNextSlide);
             prevBtn.addEventListener('click', goToPrevSlide);
             
+            // Keyboard navigation
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowRight' || e.key === ' ') {
+                    e.preventDefault(); // Prevent spacebar from scrolling page
                     goToNextSlide();
                 } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
                     goToPrevSlide();
                 }
             });
 
+            // --- Touch Swipe Navigation (NEW) ---
+            let touchStartX = 0;
+            let touchEndX = 0;
+            const swipeThreshold = 50; // Minimum distance for a swipe
+
+            slideViewport.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            slideViewport.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+
+            function handleSwipe() {
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    // Swiped left
+                    goToNextSlide();
+                } else if (touchEndX > touchStartX + swipeThreshold) {
+                    // Swiped right
+                    goToPrevSlide();
+                }
+            }
+
+            // Initialize presentation
             updateSlides();
         });
     </script>
